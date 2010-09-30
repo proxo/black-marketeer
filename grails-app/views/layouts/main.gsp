@@ -27,7 +27,7 @@
 	
 	</div>
    <div id="ft" role="contentinfo">
-   	<p>Spiv - stock market investment follower. <span>Version: <g:meta name="app.version"/> on Grails: <g:meta name="app.grails.version"/></span>
+   	<p>${grailsApplication.config.grails.projectName} - stock market investment follower. <span>Version: <g:meta name="app.version"/> on Grails: <g:meta name="app.grails.version"/></span>
    	</p>
    </div>
 </div>

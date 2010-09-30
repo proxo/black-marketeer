@@ -2,6 +2,7 @@
 <head>
 	<meta name="layout" content="main"/>
 	<gui:resources components="['tooltip']"/>
+	<export:resource />
 </head>
 
 <body>
@@ -66,6 +67,9 @@
 			</tr>
 		</g:each> 
 	</table>
+	<g:if test="${papers}">
+		<span style="float:right;"><export:formats formats="['csv', 'excel', 'xml']" controller="paper" action="exportData"/></span>
+	</g:if>
 	</div>
 </body>
 </html>

@@ -11,7 +11,7 @@
 // }
 empit.maxtrans = 5
 empit.provision = 0.003
-
+grails.projectName="Black Marketee"
 grails.project.groupId = appName // change this to alter the default package name and Maven publishing destination
 grails.mime.file.extensions = true // enables the parsing of file extensions from URLs into the request format
 grails.mime.use.accept.header = false
@@ -23,6 +23,7 @@ grails.mime.types = [ html: ['text/html','application/xhtml+xml'],
                       atom: 'application/atom+xml',
                       css: 'text/css',
                       csv: 'text/csv',
+					  excel: 'application/vnd.ms-excel',
                       all: '*/*',
                       json: ['application/json','text/json'],
                       form: 'application/x-www-form-urlencoded',
@@ -67,9 +68,12 @@ log4j = {
     //
     appenders {
         console name:'stdout', layout:pattern(conversionPattern: '%c{2} %m%n')
+		file name:'file', file:'c:/java/logfile.out'
     }
-
-
+	additivity = true
+	info 'pl.empit.spiv.action','pl.empit.spiv.service'
+	debug 'org.apache.http.headers','org.apache.http.wire'
+	
     error  'org.codehaus.groovy.grails.web.servlet',  //  controllers
 	       'org.codehaus.groovy.grails.web.pages', //  GSP
 	       'org.codehaus.groovy.grails.web.sitemesh', //  layouts

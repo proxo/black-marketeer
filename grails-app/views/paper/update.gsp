@@ -3,6 +3,14 @@
 	<title>Updating paper</title>
 	<meta name="layout" content="main"/>
 	<gui:resources components="['tooltip','datePicker']"/>
+	<g:javascript>
+		function setFetchedPrice(e) {
+			if (e.responseJSON.result) {
+				var p = e.responseJSON.result.value;
+				$("lastPrice").value = p; 
+			}
+		}
+	</g:javascript>
 </head>
 <body>
 	<p style="font-size: 120%;"><b>Update company paper</b></p>
@@ -17,15 +25,15 @@
 			<dl style="margin-top: 10px; margin-bottom: 50px;">
 				<dt>Name: ${paper?.company?.name}</dt>
 				<dt>&nbsp;</dt>
-				<dt>Last price: <g:textField name="lastPrice" value="${paper?.summary?.lastPrice}"/></dt>
+				<dt>Last price: <g:textField name="lastPrice" value="${paper?.summary?.lastPrice}"/>&nbsp;
+					<g:submitToRemote controller="paper" action="fetchPrice" onSuccess="setFetchedPrice(e)" value="Fetch price"/>
+				</dt>
 				<dt>&nbsp;</dt><dd>&nbsp;</dd>
 				<dt>
 					<g:hiddenField name="id" value="${paper?.id}" />
-					<g:actionSubmit 
-						name="save" value="Save" action="update" />
-					&nbsp;
-					<g:actionSubmit 
-						name="cancel" value="Cancel" action="cancel" />
+					<g:submitButton 
+						name="update" value="Save"/>
+					
 				</dt>
 			</dl>
 		</g:form>
