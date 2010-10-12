@@ -1,9 +1,5 @@
 class UrlMappings {
     static mappings = {
-    "/${appName}" (controller: "home"){
-    	action = [GET: "list", POST: "save"]
-     }
-     
 	  "/paper"(controller: "paperRest") {
 		  action = [GET: "list", POST: "save"]
 	  }
@@ -18,6 +14,8 @@ class UrlMappings {
 			 // apply constraints here
 		  }
 	  }
+	  "/login/$action?"(controller: "login")
+	  "/logout/$action?"(controller: "logout")
       "/"(controller: 'home')
 	  "500"(view:'/error')
 	}

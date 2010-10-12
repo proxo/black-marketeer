@@ -9,7 +9,7 @@ class Paper {
 	// unidirectional
 	
 	static belongsTo = [investor: Investor]
-	static hasMany = [transactions : PaperTransaction]                    
+	static hasMany = [transactions : PaperTransaction, quotations: PaperQuotation]                    
 	                    
     static constraints = {
 		paperCode(blank: false, size: 1..5)

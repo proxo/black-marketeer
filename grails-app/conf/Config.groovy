@@ -12,7 +12,7 @@
 empit.maxtrans = 5
 empit.provision = 0.003
 grails.projectName="Black Marketee"
-grails.project.groupId = appName // change this to alter the default package name and Maven publishing destination
+grails.project.groupId = "pl.empit.stocks" // change this to alter the default package name and Maven publishing destination
 grails.mime.file.extensions = true // enables the parsing of file extensions from URLs into the request format
 grails.mime.use.accept.header = false
 grails.mime.types = [ html: ['text/html','application/xhtml+xml'],
@@ -72,7 +72,6 @@ log4j = {
     }
 	additivity = true
 	info 'pl.empit.spiv.action','pl.empit.spiv.service'
-	debug 'org.apache.http.headers','org.apache.http.wire'
 	
     error  'org.codehaus.groovy.grails.web.servlet',  //  controllers
 	       'org.codehaus.groovy.grails.web.pages', //  GSP
@@ -95,7 +94,34 @@ log4j = {
 grails.plugins.springsecurity.userLookup.userDomainClassName = 'pl.empit.spiv.model.Investor'
 grails.plugins.springsecurity.userLookup.authorityJoinClassName = 'pl.empit.spiv.model.UserRole'
 grails.plugins.springsecurity.authority.className = 'pl.empit.spiv.model.Role'
+
+grails.plugins.springsecurity.rejectIfNoRule = true
+
+grails.plugins.springsecurity.securityConfigType = grails.plugins.springsecurity.SecurityConfigType.InterceptUrlMap
 grails.plugins.springsecurity.interceptUrlMap = [
-	'/':      ["isAuthenticated()"],
-	'/**': ["isAuthenticated()"]
+	'/login/**'  : ['IS_AUTHENTICATED_ANONYMOUSLY'],
+	'/logout/**' : ['IS_AUTHENTICATED_ANONYMOUSLY'],
+	'/**':      ["IS_AUTHENTICATED_FULLY"]
  ]
+
+grails.plugins.springsecurity.useSecurityEventListener = true
+grails.plugins.springsecurity.onInteractiveAuthenticationSuccessEvent = { e, appCtx ->
+   println "Class of ${e.class}"
+}
+
+grails.plugins.springsecurity.onAbstractAuthenticationFailureEvent = { e, appCtx ->
+   // handle AbstractAuthenticationFailureEvent
+}
+
+grails.plugins.springsecurity.onAuthenticationSuccessEvent = { e, appCtx ->
+   // handle AuthenticationSuccessEvent
+}
+
+grails.plugins.springsecurity.onAuthenticationSwitchUserEvent = { e, appCtx ->
+   // handle AuthenticationSwitchUserEvent
+}
+
+grails.plugins.springsecurity.onAuthorizationEvent = { e, appCtx ->
+   // handle AuthorizationEvent
+}
+

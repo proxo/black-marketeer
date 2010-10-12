@@ -15,7 +15,7 @@ class HomeController {
 		log.info "Got list of ${papers.size()} papers"
 		
 		if (!session.user) {
-			def i = Investor.findByUsername("pmasko@o2.pl")	
+			def i = Investor.findByUsername("admin@o2.pl")	
 			if (i) {
 				session.user = i
 				log.info "Connected user ${i.id} to session"

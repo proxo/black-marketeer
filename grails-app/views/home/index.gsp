@@ -8,13 +8,17 @@
 <body>
 	<h1 style="font-size: 120%; margin-bottom: 10px;"><b>Active stocks</b></h1>
 	<g:if test="${flash.message}">
-	<div class="message">${flash.message}</div>
-	<div style="margin-bottom: 10px;"></div>
+		<div class="message">${flash.message}</div>
+		<div style="margin-bottom: 10px;"></div>
 	</g:if>
 
 	<div id="toolbar">
-		<span>
+		<span style="margin-right: 10px;">
 			<g:link controller="paper" action="add"><img src="<g:resource dir="images" file="list-add.png" />"/></g:link>
+		</span>
+		
+		<span>
+			<g:link controller="paper" action="refreshPrices"><img src="<g:resource dir="images" file="view-refresh.png" />"/></g:link>
 		</span>
 	</div>
 	<div style="margin-bottom: 30px;">

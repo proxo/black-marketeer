@@ -84,44 +84,20 @@ class PaperController {
 		redirect(uri: "/")	
 	}
 	
-	def fetchPrice = {
-		if (params.id) {
-			def p = Paper.get(params.id)
-			log.info "Staring fetching of paper: ${p.paperCode}"
-			
-			withHttp(uri: "http://stooq.pl/q/s?=${p.paperCode.toLowerCase()}") {
+	def refreshPrices = {
+		def user = session.user
+		user.attach()
+		
+		withHttp(uri: "http://bossa.pl/pub/metastock/mstock/sesjaall/sesjaall.prn") {
+			def html = get(contentType: TEXT) { resp, reader->
+				if (investorPaperService.refreshPrices(reader.text, user)) {
+					flash.message = 'Refreshed successfully prices'
+				}	
+			}
+		}
 				
-			   
-				def html = request(GET,TEXT) { req->
-					headers.'Accept-Encoding' = 'identity;q=1.0'
-					req.getParams().setParameter("http.connection.timeout", new Integer(15000));
-					req.getParams().setParameter("http.socket.timeout", new Integer(15000));
-					
-					response.success = {resp,reader ->
-						log.debug "Loading data for code: ${p.paperCode}"
-						BufferedReader br = new BufferedReader(reader)
-						StringBuffer sb
-						String b
-						while ((b = br.readLine()) != null) {					
-							sb.append(b.trim()).append("\n")
-						}
-						
-						def d = b.toString()
-						def i = d.indexOf("id=\"aq_${p.paperCode.toLowerCase()}_c2\"")
-						def ii1 = d.indexOf(">",i) + 1
-						def ii2 = d.indexOf("</span>",i) -1
-						def res = d[ii1..ii2]
-						println "Fetched price: ${res}"
-						render(contentType : "application/json") {
-							result(value: res)
-						}
-					}
-				}
-			 }
-		}
-		render(contentType : "application/json") {
-			noresult()
-		}
+		// do redirect after refreshing
+		redirect(controller: "home", action: "index")
 	}
 	
 	def cancel = {
