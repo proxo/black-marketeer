@@ -112,6 +112,7 @@ class InvestorPaperService {
 	def calculateProfit(Paper paper) {
 		if (paper?.summary && paper?.summary?.lastPrice != null) {
 			paper.summary.profit = (paper.summary.lastPrice - paper.summary.breakEvenPrice) * paper.summary?.numOfPapers
+			paper.summary.breakEvenPrice = (Math.abs(paper.summary.totalInvested) + getBidProvision(paper.summary.numOfPapers, paper.summary.averagePrice)) / paper.summary.numOfPapers
 		}		
 	}
 	
@@ -162,6 +163,7 @@ class InvestorPaperService {
 						
 						if (it.summary != null) {
 							it.summary?.lastPrice = pq.closeValue
+							calculateProfit(it)
 							it.save(flush: true)
 						}
 						refreshed = true
