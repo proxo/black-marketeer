@@ -21,7 +21,7 @@ class PaperTransactionController {
 	def calculateProvision = {
 		def pp = null
 		if (params.price && params.numOfPapers) {
-			pp = investorPaperService.getBidProvision(params.numOfPapers.toInteger(), params.price.toBigDecimal())
+			pp = investorPaperService.getBidProvision(params.numOfPapers.toInteger(), params.price.replace(",",".").toBigDecimal())
 			render(contentType : "application/json") {
 				result(value:pp)
 			}
@@ -39,8 +39,10 @@ class PaperTransactionController {
 			flash.message = "Cannot find paper for the new transaction"
 			redirect(uri: "/")
 		}
-		
+		log.info "Paper price ${params.price}"
 		def pt = new PaperTransaction(params)
+		pt.price = params.price.toBigDecimal()
+		pt.provision = params.provision.toBigDecimal()
 		p.addToTransactions pt 
 		
 		if (pt.validate()) {

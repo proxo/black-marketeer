@@ -63,7 +63,7 @@ class InvestorPaperService {
     			cnt += t.numOfPapers
     			sum.totalProvision += t.provision
     			sum.provision += t.provision
-				def avg = t.price * t.numOfPapers
+				BigDecimal avg = t.price * t.numOfPapers
     			sum.averagePrice += avg 
     			sum.totalAveragePrice += avg
 				sum.totalInvested -= avg + t.provision
@@ -90,14 +90,15 @@ class InvestorPaperService {
 		//  
 		//
     	if (sum.numOfPapers > 0) {
-			sum.averagePrice /= sum.numOfPapers
-			sum.totalAveragePrice /= cnt
+			sum.averagePrice /= sum.numOfPapers.toBigDecimal()
+			sum.totalAveragePrice /= cnt.toBigDecimal()
 			// adjust using current average price
-			sum.breakEvenPrice = (Math.abs(sum.totalInvested) + getBidProvision(sum.numOfPapers, sum.averagePrice)) / sum.numOfPapers 
+			sum.breakEvenPrice = (Math.abs(sum.totalInvested) + getBidProvision(sum.numOfPapers, sum.averagePrice)) / sum.numOfPapers.toBigDecimal() 
     	
 			// set summary
 			paper.summary = sum
 			calculateStopLoss(paper)
+			calculateProfit paper
     	}
     }
     
@@ -119,7 +120,8 @@ class InvestorPaperService {
     def calculateStopLoss(Paper paper) {
 	
     	//FIXME: add formula - loss < 1.5 % of total money (include estimated provisions)
-    	paper?.summary?.averagePrice * 0.9	
+    	paper.summary.stopLossPrice = paper?.summary?.averagePrice * 0.9
+		paper.summary.stopLossPrice
     }
 	
 	private boolean quotationExists(String code, Date d) {

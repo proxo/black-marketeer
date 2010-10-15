@@ -1,8 +1,9 @@
 dataSource {
     pooled = true
-    driverClassName = "org.hsqldb.jdbcDriver"
-    username = "sa"
-    password = ""
+    driverClassName = "oracle.jdbc.driver.OracleDriver"
+    username = "stock"
+    password = "stock11"
+	dialect = "org.hibernate.dialect.Oracle10gDialect"
 }
 hibernate {
     cache.use_second_level_cache = true
@@ -13,8 +14,9 @@ hibernate {
 environments {
     development {
         dataSource {
-            dbCreate = "create-drop" // one of 'create', 'create-drop','update'
-            url = "jdbc:hsqldb:mem:devDB"
+            dbCreate = "update" // one of 'create', 'create-drop','update'
+			url = "jdbc:oracle:thin:@localhost:1521:XE"
+            //url = "jdbc:hsqldb:mem:devDB"
         }
     }
     test {

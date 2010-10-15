@@ -30,4 +30,8 @@ class PaperTransactionSummary {
 		lastModified(nullable : true)
 		profit(nullable: true)
     }
+	
+	def getProfitAfterTax() {
+		profit != null ? profit * 0.81: null
+	}
 }

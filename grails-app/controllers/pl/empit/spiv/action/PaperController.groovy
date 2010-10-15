@@ -73,11 +73,9 @@ class PaperController {
 		if (p.summary == null) {
 			p.summary = new PaperTransactionSummary()
 		}
-		
-		p?.summary?.properties = params['lastPrice']
-		// dead simple and inefficient update
-		investorPaperService.createPaperSummary p
-		investorPaperService.calculateProfit p 
+		// data
+		p.paperCode = params.paperCode
+		p.company.name = params.name
 		
 		flash.message = p.save(flush: true) ? "Updated paper ${p.paperCode}" : "Some error occured"
 			

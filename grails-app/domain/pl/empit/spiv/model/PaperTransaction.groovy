@@ -18,8 +18,9 @@ class PaperTransaction {
     }
 	
 	static mapping  = {
-		table 'transaction'
+		table 'paper_transaction'
 		tradeDate column:"trade_date"
+		comment column: "comment_text"
 	}
 	
 	static belongsTo = [paper: Paper]
